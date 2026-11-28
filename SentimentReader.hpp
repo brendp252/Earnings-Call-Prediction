@@ -31,12 +31,12 @@ public:
 private:
     void readCall(const std::string& callFile) {
         std::ifstream is(callFile);
-        if (is.fail()) printError('f');
+        if (is.fail()) printError(Error::InvalidCallFile);
         ++totalCalls;
 
         std::string word;
         is >> word;
-        if (word != "Positive" && word != "Negative") printError('t');
+        if (word != "Positive" && word != "Negative") printError(Error::InvalidLabel);
 
         if (word == "Positive") {
             ++totalPosCalls;
