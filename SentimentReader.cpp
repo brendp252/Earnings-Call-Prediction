@@ -31,24 +31,24 @@ void SentimentReader::getOptions(int argc, char** argv) {
                 printHelp();
 
             default:
-                printError('u');
+                printError(Error::UnknownCLIOption);
         } // switch
     } // while
 
-    if (readFile.empty()) printError('r');
-    if (predictFile.empty()) printError('p'); 
+    if (readFile.empty()) printError(Error::NoCallFileList);
+    if (predictFile.empty()) printError(Error::NoPredictFile); 
 } // getOptions()
 
 
 void SentimentReader::readCalls() {
     std::ifstream is(readFile);
-    if (is.fail()) printError('l');
+    if (is.fail()) printError(Error::InvalidCallFileList);
     
     std::string callFile;
     while (is >> callFile) {
         readCall(callFile);
     } // while
-    if (totalCalls == 0) printError('c');
+    if (totalCalls == 0) printError(Error::EmptyCallFileList);
 
     const int ALPHA = 1; // For Laplace smoothing
     const double NUM_FEATURES = static_cast<double>(vocab.size()); // For Laplace smoothing
@@ -64,7 +64,7 @@ void SentimentReader::readCalls() {
 
 void SentimentReader::predict() const {
     std::ifstream is(predictFile);
-    if (is.fail()) printError('f');
+    if (is.fail()) printError(Error::InvalidCallFile);
 
     double negLogOdds = std::log(static_cast<double>(totalCalls - totalPosCalls) / static_cast<double>(totalPosCalls));
 

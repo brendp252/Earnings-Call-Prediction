@@ -26,21 +26,21 @@ std::string lowerAndStrip(const std::string& str) {
 } // lowerAndStrip()
 
 
-[[noreturn]] void printError(char type) {
-    if (type == 'l') {
-        std::cerr << "Could not open list of call files" << std::endl;
-    } else if (type == 'f') {
+[[noreturn]] void printError(Error e) {
+    if (e == Error::InvalidCallFile) {
         std::cerr << "Could not open call file" << std::endl;
-    } else if (type == 'u') {
-        std::cerr << "Unknown option" << std::endl;
-    } else if (type == 't') {
-        std::cerr << "File must be labeled Positive or Negative" << std::endl;
-    } else if (type == 'c') {
-        std::cerr << "Select training data before predicting" << std::endl;
-    } else if (type == 'r') {
+    } else if (e == Error::InvalidCallFileList) {
+        std::cerr << "Could not open list of call files" << std::endl;
+    } else if (e == Error::NoCallFileList) {
         std::cerr << "Provide list of call files" << std::endl;
-    } else if (type == 'p') {
+    } else if (e == Error::EmptyCallFileList) {
+        std::cerr << "Select training data before predicting" << std::endl;
+    } else if (e == Error::NoPredictFile) {
         std::cerr << "Provide file to predict" << std::endl;
+    } else if (e == Error::InvalidLabel) {
+        std::cerr << "File must be labeled Positive or Negative" << std::endl;
+    } else if (e == Error::UnknownCLIOption) {
+        std::cerr << "Unknown option" << std::endl;
     } // if-else
 
     exit(1);
